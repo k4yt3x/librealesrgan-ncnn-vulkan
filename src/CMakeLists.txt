@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.9)
 project(librealesrgan-ncnn-vulkan)
 
+include(GNUInstallDirs)
+
 # Set policies
 cmake_policy(SET CMP0091 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0091 NEW)
@@ -269,22 +271,22 @@ set_target_properties(librealesrgan-ncnn-vulkan PROPERTIES POSITION_INDEPENDENT_
 # Install the library
 install(TARGETS librealesrgan-ncnn-vulkan
     EXPORT realesrganTargets
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
 # Install the header file
-install(FILES realesrgan.h DESTINATION include)
+install(FILES realesrgan.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 # Install the generated shader headers
-install(FILES ${SHADER_SPV_HEX_FILES} DESTINATION include)
+install(FILES ${SHADER_SPV_HEX_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 # Install export targets
 install(EXPORT realesrganTargets
     FILE realesrganTargets.cmake
     NAMESPACE realesrgan::
-    DESTINATION lib/cmake/realesrgan
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/realesrgan"
 )
 
 # Create and install the package configuration file
@@ -298,12 +300,11 @@ write_basic_package_version_file(
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/realesrganConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/realesrganConfig.cmake"
-    INSTALL_DESTINATION lib/cmake/realesrgan
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/realesrgan"
 )
 
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/realesrganConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/realesrganConfigVersion.cmake"
-    DESTINATION lib/cmake/realesrgan
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/realesrgan"
 )
-
